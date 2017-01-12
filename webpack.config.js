@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 module.exports = {
 	context: path.resolve(__dirname, 'client'),
@@ -16,6 +17,14 @@ module.exports = {
 		contentBase: path.resolve(__dirname, 'client')
 	},
 	devtool: "cheap-module-eval-source-map",
+	plugins: [
+		new StyleLintPlugin({
+			configFile: '.stylelintrc',
+			files: '**/*.css',
+			failOnError: false,
+			quiet: false
+		}),
+	],
 	module: {
 		rules: [
 			{
