@@ -1,10 +1,23 @@
-body {
-	background-color: lightblue;
-	padding: 0;
-	margin: 0;
+:root {
+	--text-color__base: #333;
+	--bg-color__base: lightblue;
+	--bg-color__input: #f00;
 }
 
-#app {
+body {
+	width: 500px;
+	padding: 0;
 	margin: 2em auto 0;
-	max-width: 1080px;
+	color: var(--text-color__base);
+	background: var(--bg-color__base);
+}
+
+.input {
+	background: var(--bg-color__input);
+}
+
+h3 {
+	&:hover {
+		color: blue;
+	}	
 }

@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 module.exports = {
 	context: path.resolve(__dirname, 'client'),
@@ -15,13 +16,15 @@ module.exports = {
 	devServer: {
 		contentBase: path.resolve(__dirname, 'client')
 	},
-	plugins: [
-		require('postcss-smart-import'),
-		require('precss'),
-		require('autoprefixer'),
-		require('postcss-css-variables')
-	],
 	devtool: "cheap-module-eval-source-map",
+	plugins: [
+		new StyleLintPlugin({
+			configFile: '.stylelintrc',
+			files: '**/*.css',
+			failOnError: false,
+			quiet: false
+		}),
+	],
 	module: {
 		rules: [
 			{
@@ -31,6 +34,14 @@ module.exports = {
 			{
 				test: /\.css?$/,
 				use: ['style-loader', 'css-loader']
+			},
+			{
+				test: /\.css/,
+				use: [
+					{
+						loader: 'postcss-loader'
+					}
+				]
 			}
 		]
 	}

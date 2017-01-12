@@ -6,10 +6,10 @@ class SearchBar extends Component {
 
 		return (
 			<form>
-				<input type="search" placeholder="Search..." onChange={onSearch} />
+				<input className="input" type="search" placeholder="Search..." onChange={onSearch} />
 				<label>
-						<input type="checkbox" onChange={onOnlyActive}/>
-						Only show active artists
+					<input type="checkbox" onChange={onOnlyActive}/>
+					Only show active artists
 				</label>
 			</form>
 		);
