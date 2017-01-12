@@ -1,3 +1,6 @@
+:root {
+	--bg-color: #f00;
+}
 body {
 	background-color: lightblue;
 	padding: 0;
@@ -7,4 +10,8 @@ body {
 #app {
 	margin: 2em auto 0;
 	max-width: 1080px;
+}
+
+input {
+	background: var(--bg-color);
 }
