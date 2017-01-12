@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
 import SearchBar from './SearchBar';
 import MusicCategoryRow from './MusicCategoryRow';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as actions from '../actions';
+import { filterOnlyActive, filterSearch } from '../reducers';
 
 class FilterableTable extends Component {
 	constructor(props) {
 		super(props);
 		this.onSearch = this.onSearch.bind(this);
 		this.onOnlyActive = this.onOnlyActive.bind(this);
-		this.state = {
-			search: '',
-			onlyActive: false
-		};
 	}
 
-	onSearch(e) {
-		this.setState({
-			search: e.target.value
-		});
-	}
-
-	onOnlyActive(e) {
-		this.setState({
-			onlyActive: e.target.checked
-		});
+	componentDidMount() {
+		this.props.actions.getMusic();
+		console.log(this.props);
 	}
 
 	filterSearch(music) {
@@ -32,13 +26,13 @@ class FilterableTable extends Component {
 			return {
 				category,
 				items: items.filter(artist =>
-					artist.name.indexOf(this.state.search) > -1)
+					artist.name.indexOf(this.props.search) > -1)
 			};
 		});
 	}
 
 	filterOnlyActive(music) {
-		if (!this.state.onlyActive) return music;
+		if (!this.props.onlyActive) return music;
 
 		return music.map((musicCat) => {
 			const { category, items } = musicCat;
@@ -48,6 +42,14 @@ class FilterableTable extends Component {
 				items: items.filter(artist => artist.active)
 			};
 		});
+	}
+
+	onSearch(e) {
+		this.props.actions.searchUpdate(e.target.value);
+	}
+
+	onOnlyActive(e) {
+		this.props.actions.onlyActiveUpdate(e.target.checked);
 	}
 
 	render() {
@@ -68,4 +70,19 @@ class FilterableTable extends Component {
 	}
 };
 
-export default FilterableTable;
+const mapStateToProps = (state) => {
+	const { music, onlyActive, search } = state;
+	return {
+		music,
+		onlyActive,
+		search
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(actions, dispatch)
+	}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterableTable);
